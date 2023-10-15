@@ -64,7 +64,7 @@ public class BowBehaviour : XRBaseInteractable
     private void UpdateString()
     {
         Vector3 linePosition = Vector3.forward * Mathf.Lerp(start.transform.localPosition.z, end.transform.localPosition.z, pullAmount );
-        notch.transform.localPosition = new Vector3(notch.transform.localPosition.x, notch.transform.localPosition.y, linePosition.z );
+        notch.transform.localPosition = new Vector3(notch.transform.localPosition.x, notch.transform.localPosition.y, linePosition.z);
         lineRenderer.SetPosition(1, linePosition);
     }
 }
