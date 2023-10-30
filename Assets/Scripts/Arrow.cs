@@ -10,11 +10,13 @@ public class Arrow : MonoBehaviour
     private Rigidbody _rigidBody;
     private bool _inAir = false;
     private Vector3 _lastPosition = Vector3.zero;
+    private PlayerInventory playerInventory;
 
     private void Awake()
     {
         _rigidBody = GetComponent<Rigidbody>();
         BowBehaviour.PullActionReleased += Release;
+        playerInventory = PlayerInventory.instance;
         Stop();
     }
 
@@ -57,6 +59,13 @@ public class Arrow : MonoBehaviour
     {
         if(Physics.Linecast(_lastPosition, tip.position, out RaycastHit hitInfo))
         {
+            if(hitInfo.transform.gameObject.layer.Equals(8))
+            {
+                if (hitInfo.transform.gameObject.GetComponent<EnemyBehavior>().TakeDamage(20, out var loot))
+                {
+                    playerInventory.GetMobDrop(loot);
+                }
+            }
             if(hitInfo.transform.gameObject.tag != "ArrowIgnore")
             {
                 if(hitInfo.transform.TryGetComponent(out Rigidbody body))
