@@ -32,7 +32,7 @@ public class Arrow : MonoBehaviour
         _inAir = true;
         SetPhysics(true);
         Vector3 force = transform.forward * value * speed;
-        _rigidBody.AddForce(force, ForceMode.Impulse);
+        _rigidBody.AddForce(force * 4, ForceMode.Impulse);
 
         StartCoroutine(RotateWithVelocity());
         _lastPosition = tip.position;

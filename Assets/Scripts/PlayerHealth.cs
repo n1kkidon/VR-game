@@ -46,14 +46,14 @@ public class PlayerHealth : MonoBehaviour//, IDataPersistence
         //     return;
 
         // animator.SetTrigger("GetHit");
-        // currentHealth -= damage * playerMovement.takeDamageRatio;
+        currentHealth -= damage;
 
         healthBar.SetHealth(currentHealth);
         //playerMovement.flashImage.StartFlash(0.15f, 0.2f, Color.red);
         if (currentHealth <= 0 && !isDead)
         {
             isDead = true;
-            animator.SetBool("Died", true);
+            //animator.SetBool("Died", true);
             //manager.GameOver();
         }
         //painSoundEffect.Play();
