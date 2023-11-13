@@ -11,7 +11,6 @@ public class VaseTeleport : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        SceneManager.LoadScene("VR-game-end");
-        player.transform.position = teleportDestination;
+        SceneManager.LoadScene("VR-game");
     }
 }

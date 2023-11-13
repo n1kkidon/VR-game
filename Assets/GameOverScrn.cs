@@ -10,19 +10,19 @@ public class GameOverScrn : MonoBehaviour
 
     private void Start()
     {
-        // Check if the Text component was found
-        if (gameStartText != null)
-        {
-            // Set the alpha to fully opaque
-            gameStartText.alpha = 1f;
+            // Check if the Text component was found
+            if (gameStartText != null)
+            {
+                // Set the alpha to fully opaque
+                gameStartText.alpha = 1f;
 
-            // Start the coroutine to fade out the text after the specified display time
-            StartCoroutine(FadeOutText());
-        }
-        else
-        {
-            Debug.LogError("Text component not found. Make sure it exists as a child of the GameStart GameObject.");
-        }
+                // Start the coroutine to fade out the text after the specified display time
+                StartCoroutine(FadeOutText());
+            }
+            else
+            {
+                Debug.LogError("Text component not found. Make sure it exists as a child of the GameStart GameObject.");
+            }
     }
 
     IEnumerator FadeOutText()
