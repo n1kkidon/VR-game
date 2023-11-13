@@ -50,5 +50,6 @@ public class ArrowSpawner : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         _currentArrow = Instantiate(arrow, notch.transform);
+        Collider arrowCollider = _currentArrow.GetComponent<Collider>();
     }
 }
