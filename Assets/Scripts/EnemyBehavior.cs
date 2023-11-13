@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
@@ -9,7 +10,7 @@ public class EnemyBehavior : MonoBehaviour
 {
     //public GameManager manager;
     NavMeshAgent agent;
-    public Transform player;
+    //public Transform player;
     public LayerMask groundLayer, playerLayer;
     Slider healthBar;
     Animator animator;
@@ -26,7 +27,7 @@ public class EnemyBehavior : MonoBehaviour
     public float attackDamage = 20;
     public float tetherRange = 0.5f;
 
-    public PlayerHealth playerHealth;
+    //public PlayerHealth playerHealth;
     public float maxHealth = 60f;
     float currentHealth;
     private float baseHP = 250f;
@@ -71,8 +72,10 @@ public class EnemyBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, playerLayer);
-        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
+        var sightColiders = Physics.OverlapSphere(transform.position, sightRange, playerLayer);
+        var attackColiders = Physics.OverlapSphere(transform.position, attackRange, playerLayer);
+        playerInSightRange = sightColiders.Any();
+        playerInAttackRange = attackColiders.Any();
         currHpPercent = currentHealth / maxHealth;
         //IncreaseDamage();
         if (canAttackPlayer)
@@ -80,9 +83,9 @@ public class EnemyBehavior : MonoBehaviour
             if (!playerInSightRange && !playerInAttackRange)
                 Patroling();
             if (playerInSightRange && !playerInAttackRange)
-                ChasePlayer();
+                ChasePlayer(sightColiders.First());
             else if (playerInAttackRange && playerInSightRange)
-                AttackPlayer();
+                AttackPlayer(attackColiders.First());
         }
     }
     bool test = false;
@@ -127,38 +130,43 @@ public class EnemyBehavior : MonoBehaviour
         if (distanceToWalkPoint.magnitude < 1f)
             walkPointSet = false;
     }
-    private void ChasePlayer()
+    private void ChasePlayer(Collider collider)
     {
+        var pos = collider.gameObject.transform.position;
         animator.SetBool("IsInVisionRange", true);
         animator.SetBool("IsInAttackRange", false);
-        agent.SetDestination(player.position);
+        //Debug.Log($"chase to: {pos}");
+        agent.SetDestination(pos);
     }
-
-    private void AttackPlayer()
+    IAttackable playerHealth;
+    private void AttackPlayer(Collider collider)
     {
+        playerHealth = collider.gameObject.GetComponent<IAttackable>();
         animator.SetBool("IsInAttackRange", true);
-        if((transform.position - player.position).magnitude < tetherRange) 
+        if((transform.position - collider.gameObject.transform.position).magnitude < tetherRange) 
             agent.SetDestination(transform.position);
-        else agent.SetDestination(player.position);
-        transform.LookAt(player);
+        else agent.SetDestination(collider.gameObject.transform.position);
+        transform.LookAt(collider.gameObject.transform);
         if(!alreadyAttacked && canAttackPlayer)
         {
             //Need to put attacking logic here 
             animator.SetTrigger("AttackPlayer");
             var delay = animator.GetCurrentAnimatorStateInfo(0).length;
             alreadyAttacked = true;
-            if(playerHealth.currentHealth > 0)
+            if(playerHealth.GetCurrentHealth() > 0)
             {
                 Invoke(nameof(HitPlayer), delay * 0.3f);
             }   
         }
     }
-    bool canAttackPlayer = true;
+
     void HitPlayer()
     {
         playerHealth.TakeDamage(attackDamage);
         Invoke(nameof(ResetAttack), AttackCooldown);
     }
+    bool canAttackPlayer = true;
+    
 
     bool amIdead = false;
     public bool TakeDamage(float damage, out MobDrop loot, float stunDuration = 0)

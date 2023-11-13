@@ -1,25 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class PlayerHealth : MonoBehaviour, IAttackable//, IDataPersistence
+public class TowerHealth : MonoBehaviour, IAttackable
 {
-    public float maxHealth = 100;
+    public float maxHealth = 1000;
     public float currentHealth;
-
-    public PlayerScreenUI healthBar;
+    public Slider sliderHP;
     //public GameManager manager;
 
+    public void SetMaxHealth(float health)
+    {
+        sliderHP.maxValue = health;
+        sliderHP.value = health;
+    }
+
+    public void SetHealth(float health)
+    {
+        sliderHP.value = health;
+    }
+
+    public float GetCurrentHealth() => currentHealth;
     Animator animator;
     //PlayerMovement playerMovement;
     bool isDead = false;
-    public static PlayerHealth instance;
 
     [SerializeField] private AudioSource painSoundEffect;
     void Awake()
     {
         animator = GetComponentInChildren<Animator>();
-        instance= this;
         //playerMovement = GetComponent<PlayerMovement>();
     }
 
@@ -27,7 +37,7 @@ public class PlayerHealth : MonoBehaviour, IAttackable//, IDataPersistence
     void Start()
     {
         currentHealth = maxHealth;
-        healthBar.SetMaxHealth(maxHealth);
+        SetMaxHealth(maxHealth);
 
     }
 
@@ -40,8 +50,6 @@ public class PlayerHealth : MonoBehaviour, IAttackable//, IDataPersistence
         //}
     }
 
-    public float GetCurrentHealth() => currentHealth;
-
     public void TakeDamage(float damage)
     {
         // if (!playerMovement.CanTakeDamage) //could also play some block sound, idk
@@ -50,7 +58,7 @@ public class PlayerHealth : MonoBehaviour, IAttackable//, IDataPersistence
         // animator.SetTrigger("GetHit");
         currentHealth -= damage;
 
-        healthBar.SetHealth(currentHealth);
+        SetHealth(currentHealth);
         //playerMovement.flashImage.StartFlash(0.15f, 0.2f, Color.red);
         if (currentHealth <= 0 && !isDead)
         {
@@ -68,19 +76,6 @@ public class PlayerHealth : MonoBehaviour, IAttackable//, IDataPersistence
             currentHealth = maxHealth;
         }
         else currentHealth += ammount;
-        healthBar.SetHealth(currentHealth);
+        SetHealth(currentHealth);
     }
-
-    // public void LoadData(GameData data)
-    // {
-    //     currentHealth = data.currentHealth;
-    //     maxHealth = data.maxHealth;
-    //     healthBar.SetHealth(currentHealth);
-    // }
-
-    // public void SaveData(ref GameData data)
-    // {
-    //     data.currentHealth = currentHealth;
-    //     data.maxHealth = maxHealth;
-    // }
 }
