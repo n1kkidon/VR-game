@@ -1771,7 +1771,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 224659525}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
   m_Name: 
@@ -2304,6 +2304,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 200221964}
   m_SourcePrefab: {fileID: 100100000, guid: 6e604c269b8519d4486bbbc982b9afa9, type: 3}
+--- !u!4 &341118297 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8162480317225412931, guid: 330a280a986c05e4394a2c12b6e7d4a2, type: 3}
+  m_PrefabInstance: {fileID: 1512362386}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &343622038 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 187918, guid: 77a599bd67f72e24999e1d5d60f433d0, type: 3}
@@ -7639,7 +7644,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teleportDestination: {x: 647.69, y: 0.522, z: 492.6}
-  player: {fileID: 1512362388}
+  player: {fileID: 341118297}
 --- !u!64 &2069606189
 MeshCollider:
   m_ObjectHideFlags: 0
