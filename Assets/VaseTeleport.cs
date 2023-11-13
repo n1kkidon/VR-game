@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class VaseTeleport : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class VaseTeleport : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        SceneManager.LoadScene("VR-game-end");
         player.transform.position = teleportDestination;
     }
 }

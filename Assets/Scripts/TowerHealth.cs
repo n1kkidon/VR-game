@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TowerHealth : MonoBehaviour, IAttackable
 {
@@ -63,6 +64,7 @@ public class TowerHealth : MonoBehaviour, IAttackable
         if (currentHealth <= 0 && !isDead)
         {
             isDead = true;
+            SceneManager.LoadScene("VR-game-end");
             //animator.SetBool("Died", true);
             //manager.GameOver();
         }
