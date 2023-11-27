@@ -1024,7 +1024,7 @@ GameObject:
   - component: {fileID: 189294524}
   m_Layer: 6
   m_Name: player
-  m_TagString: Untagged
+  m_TagString: ArrowIgnore
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2609,7 +2609,17 @@ MonoBehaviour:
   Waves:
   - enemies:
     - {fileID: 2372249501845417608, guid: 8e5d8c37060fe594a8ac0d5cd3d98286, type: 3}
-    counts: 03000000
+    counts: 030000000300000003000000
+    rate: 0.7
+  - enemies:
+    - {fileID: 2372249501845417608, guid: 8e5d8c37060fe594a8ac0d5cd3d98286, type: 3}
+    - {fileID: 2834637480140472070, guid: 2a7cc11807dde384baa9224414d0e2e8, type: 3}
+    counts: 0300000002000000
+    rate: 0.7
+  - enemies:
+    - {fileID: 2372249501845417608, guid: 8e5d8c37060fe594a8ac0d5cd3d98286, type: 3}
+    - {fileID: 4667765196079867667, guid: cbfe222a64d88174cbc82287ba794e0c, type: 3}
+    counts: 0500000002000000
     rate: 0.7
   SpawnPoints:
   - {fileID: 4140154546286384251}
