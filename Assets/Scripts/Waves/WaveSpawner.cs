@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using static WaveSpawner;
 
 public partial class WaveSpawner : MonoBehaviour
@@ -83,6 +84,7 @@ public partial class WaveSpawner : MonoBehaviour
         {
             Debug.Log("All waves completed");
             state = SpawnState.FINISHED;
+            SceneManager.LoadScene("VR-game-win");
             //GetComponent<GameManager>().GameComplete();
         }
         else
