@@ -55,7 +55,7 @@ public class TowerBullet : MonoBehaviour {
     {
         if(other.gameObject.transform == target)
         {
-            target.GetComponent<EnemyHp>().Dmg(twr.dmg); 
+            target.GetComponent<EnemyBehavior>().TakeDamage(twr.dmg, out var _, 0); 
             Destroy(gameObject, i); // destroy bullet
             impactParticle = Instantiate(impactParticle, target.transform.position, Quaternion.FromToRotation(Vector3.up, impactNormal)) as GameObject;
             impactParticle.transform.parent = target.transform;

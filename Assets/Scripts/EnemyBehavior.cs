@@ -181,7 +181,7 @@ public class EnemyBehavior : MonoBehaviour
         {
             amIdead = true;
             animator.SetBool("Died", true);
-            Invoke(nameof(DestroyEnemy), 5f); //animator.GetCurrentAnimatorStateInfo(0).length * 2);
+            Invoke(nameof(DestroyEnemy), 1f); //animator.GetCurrentAnimatorStateInfo(0).length * 2);
             loot = DropLoot();
             this.enabled = false;
             return true;

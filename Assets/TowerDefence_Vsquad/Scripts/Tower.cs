@@ -15,17 +15,16 @@ public class Tower : MonoBehaviour {
     public int dmg = 10;
     public float shootDelay;
     bool isShoot;
-    public Animator anim_2;
-    public TowerHP TowerHp;    
     private float homeY;
+
+    public LayerMask enemyLayer;
+    public float sightRange;
 
     // for Catcher tower 
 
     void Start()
     {
-        anim_2 = GetComponent<Animator>();
         homeY = LookAtObj.transform.localRotation.eulerAngles.y;
-        TowerHp = Towerbug.GetComponent<TowerHP>();
     }
            
 
@@ -37,7 +36,7 @@ public class Tower : MonoBehaviour {
     {
         if (target)
         {
-            target.GetComponent<EnemyHp>().Dmg(dmg);
+            target.GetComponent<EnemyBehavior>().TakeDamage(dmg, out var _, 0);
         }
     }
 
@@ -46,26 +45,31 @@ public class Tower : MonoBehaviour {
 
     void Update () {
 
-        
+        var sightColiders = Physics.OverlapSphere(transform.position, sightRange, enemyLayer);
         // Tower`s rotate
 
-        if (target)
-        {  
-            
-            Vector3 dir = target.transform.position - LookAtObj.transform.position;
-                dir.y = 0; 
-                Quaternion rot = Quaternion.LookRotation(dir);                
-                LookAtObj.transform.rotation = Quaternion.Slerp( LookAtObj.transform.rotation, rot, 5 * Time.deltaTime);
-
-        }
-      
-        else
+        if (sightColiders.Length != 0)
         {
-            
-            Quaternion home = new Quaternion (0, homeY, 0, 1);
-            
-            LookAtObj.transform.rotation = Quaternion.Slerp(LookAtObj.transform.rotation, home, Time.deltaTime);                        
+            target = sightColiders[0].gameObject.transform;
+            if (sightColiders[0].gameObject.transform)
+            {
+
+                Vector3 dir = target.transform.position - LookAtObj.transform.position;
+                dir.y = 0;
+                Quaternion rot = Quaternion.LookRotation(dir);
+                LookAtObj.transform.rotation = Quaternion.Slerp(LookAtObj.transform.rotation, rot, 5 * Time.deltaTime);
+
+            }
+            else
+            {
+
+                Quaternion home = new Quaternion(0, homeY, 0, 1);
+
+                LookAtObj.transform.rotation = Quaternion.Slerp(LookAtObj.transform.rotation, home, Time.deltaTime);
+            }
         }
+
+
 
 
         // Shooting
@@ -88,15 +92,6 @@ public class Tower : MonoBehaviour {
 
         }
 
-        // Destroy
-
-        if (TowerHp.CastleHp <= 0)        {
-            
-            Destroy(gameObject);
-            DestroyParticle = Instantiate(DestroyParticle, Towerbug.transform.position, Quaternion.FromToRotation(Vector3.up, impactNormal_2)) as GameObject;            
-            Destroy(DestroyParticle, 3);
-        }
-
 
 
     }
@@ -115,11 +110,6 @@ public class Tower : MonoBehaviour {
           
         }
 
-        if (target && Catcher == true)
-        {
-            anim_2.SetBool("Attack", true);
-            anim_2.SetBool("T_pose", false);
-        }
 
 
         isShoot = false;
@@ -130,9 +120,7 @@ public class Tower : MonoBehaviour {
         void StopCatcherAttack()
 
         {                
-            target = null;
-            anim_2.SetBool("Attack", false);
-            anim_2.SetBool("T_pose", true);        
+            target = null;     
         } 
           
 
