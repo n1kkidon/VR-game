@@ -376,7 +376,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e207e6962ed7924c8db29ab33a01f1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   groundLayer:
     serializedVersion: 2
     m_Bits: 1
@@ -384,11 +383,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   AttackCooldown: 0.7
-  sightRange: 50
-  attackRange: 2
+  sightRange: 120
+  attackRange: 1.5
   attackDamage: 20
-  tetherRange: 0.5
-  playerHealth: {fileID: 0}
+  tetherRange: 1.5
   maxHealth: 60
   goldTarget: 50
   goldTargetDeviation: 6
