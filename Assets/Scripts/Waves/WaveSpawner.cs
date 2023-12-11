@@ -21,11 +21,14 @@ public partial class WaveSpawner : MonoBehaviour
 
     //[SerializeField]
     //private Transform bossEnemyPrefab;
+    public Transform transformVessel;
+    private bool vesselTriggered = false;
 
     void Start()
     {
         waveCountDown = timeBetweenWaves;
     }
+
     void Update()
     {
         if (state == SpawnState.FINISHED)
@@ -48,7 +51,7 @@ public partial class WaveSpawner : MonoBehaviour
                 return;
             }
         }
-        if(waveCountDown <= 0)
+        if(waveCountDown <= 0 && vesselTriggered == true)
         {
             if(state!= SpawnState.SPAWNING)
             {
@@ -65,6 +68,15 @@ public partial class WaveSpawner : MonoBehaviour
         // {
         //     SpawnBossEnemy();
         // }
+    }
+
+    public void TriggerWaveSpawn()
+    {
+        if (!vesselTriggered && transformVessel != null)
+        {
+            vesselTriggered = true;
+            StartCoroutine(SpawnWave(Waves[nextWave])); // Initial spawn
+        }
     }
 
     void WaveCompleted()
