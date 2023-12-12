@@ -13,6 +13,7 @@ public class SpawnWaveOnTrigger : MonoBehaviour
         }
 
         // Optionally, you can also destroy the arrow or perform other actions here
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

@@ -21,7 +21,7 @@ public partial class WaveSpawner : MonoBehaviour
 
     //[SerializeField]
     //private Transform bossEnemyPrefab;
-    public Transform transformVessel;
+    public GameObject transformVessel;
     private bool vesselTriggered = false;
 
     void Start()
@@ -31,7 +31,7 @@ public partial class WaveSpawner : MonoBehaviour
 
     void Update()
     {
-        if (state == SpawnState.FINISHED)
+        if (state == SpawnState.FINISHED || !vesselTriggered)
             return;
 
         //ScreenUI.SetWave(nextWave+1, enemiesAlive, waveCountDown);
@@ -40,7 +40,7 @@ public partial class WaveSpawner : MonoBehaviour
             if(!EnemyIsAlive())
             {
                 WaveCompleted();
-                if (state == SpawnState.FINISHED)
+                if (state == SpawnState.FINISHED || !vesselTriggered)
                 {
                     //ScreenUI.SetWave(1, 1, -1f);
                     return; 
@@ -51,7 +51,7 @@ public partial class WaveSpawner : MonoBehaviour
                 return;
             }
         }
-        if(waveCountDown <= 0 && vesselTriggered == true)
+        if(waveCountDown <= 0 && vesselTriggered)
         {
             if(state!= SpawnState.SPAWNING)
             {
@@ -75,7 +75,7 @@ public partial class WaveSpawner : MonoBehaviour
         if (!vesselTriggered && transformVessel != null)
         {
             vesselTriggered = true;
-            StartCoroutine(SpawnWave(Waves[nextWave])); // Initial spawn
+            //StartCoroutine(SpawnWave(Waves[nextWave])); // Initial spawn
         }
     }
 
@@ -102,6 +102,8 @@ public partial class WaveSpawner : MonoBehaviour
         else
         {
             nextWave++;
+            transformVessel.gameObject.SetActive(true);
+            vesselTriggered = false;
         }
     }
 
